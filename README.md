@@ -113,14 +113,19 @@ composer run dev
 
 ##  Application screen shots and Demo vidoe
 
+Screen for monitoring int the office
 ![Large Screen Monitor](image-1.png) 
 
+Login
 ![Login](image-2.png)
 
+Signup
 ![Sign Up](image-5.png)
 
+Dashboard
 ![Dashboard](image-6.png)
 
+Test file Uploads
 ![All Uploads](image-7.png)
 
 

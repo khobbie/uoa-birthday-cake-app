@@ -8,7 +8,9 @@
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
             <a href="{{ route('dashboard') }}" class="mr-5 flex items-center space-x-2" wire:navigate>
-                <x-app-logo />
+                {{-- <x-app-logo /> --}}
+
+                <img src="https://www.abdn.ac.uk/media/university-of-aberdeen/content-assets/images/UoA_Primary_Logo_RGB_2018.svg" alt="University of Aberdeen logo" class="ml-10" width="130">
             </a>
 
             <flux:navlist variant="outline">
@@ -22,7 +24,6 @@
             </flux:navlist>
 
             <flux:spacer />
-
 
 
             <!-- Desktop User Menu -->
@@ -125,184 +126,187 @@
 
         @fluxScripts
 
+
+
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
         <script>
 
 
 
-            function openUploadModal() {
-                            document.getElementById("uploadModal").classList.remove("hidden");
-                        }
+function openUploadModal() {
+                document.getElementById("uploadModal").classList.remove("hidden");
+            }
 
-                        function closeUploadModal() {
-                            document.getElementById("uploadModal").classList.add("hidden");
-                        }
+            function closeUploadModal() {
+                document.getElementById("uploadModal").classList.add("hidden");
+            }
 
-                        function viewDetails(cake, names) {
-                            document.getElementById("detailsContent").innerText = `Cake Type: ${cake}\nOrdered by: ${names}`;
-                            document.getElementById("detailsModal").classList.remove("hidden");
-                        }
+            function viewDetails(cake, names) {
+                document.getElementById("detailsContent").innerText = `Cake Type: ${cake}\nOrdered by: ${names}`;
+                document.getElementById("detailsModal").classList.remove("hidden");
+            }
 
-                        function closeDetailsModal() {
-                            document.getElementById("detailsModal").classList.add("hidden");
-                        }
+            function closeDetailsModal() {
+                document.getElementById("detailsModal").classList.add("hidden");
+            }
 
-            $(document).ready(function () {
+$(document).ready(function () {
 
-                    // When a toggle is clicked
-                    $(".toggleUploadSwitch").change(function(e) {
-                        e.preventDefault();
+        // When a toggle is clicked
+        $(".toggleUploadSwitch").change(function(e) {
+            e.preventDefault();
 
-                        let data = {
-                            status: 0,
-                            action_id: null,
-                            _token:   '{{ csrf_token() }}'
-                        };
+            let data = {
+                status: 0,
+                action_id: null,
+                _token:   '{{ csrf_token() }}'
+            };
 
-                    // If the current toggle is checked, uncheck all other toggles
-                    if ($(this).prop("checked")) {
-                        $(".toggleSwitch").not(this).prop("checked", false);
+        // If the current toggle is checked, uncheck all other toggles
+        if ($(this).prop("checked")) {
+            $(".toggleSwitch").not(this).prop("checked", false);
 
-                        data.status = 1;
-                        data.action_id = $(this).attr("id");
-                                    // Alert the ID of the currently checked toggle
+            data.status = 1;
+            data.action_id = $(this).attr("id");
+                        // Alert the ID of the currently checked toggle
 
-                    }else{
-                        $(".toggleSwitch").not(this).prop("checked", true);
-                        data.status = 0;
-                        data.action_id = $(this).attr("id");
+        }else{
+            $(".toggleSwitch").not(this).prop("checked", true);
+            data.status = 0;
+            data.action_id = $(this).attr("id");
 
-                    }
+        }
 
 
+
+Swal.fire({
+    title: "Processing ...",
+    didOpen: () => {
+        Swal.showLoading();
+    }
+
+    })
+
+
+
+    // return false;
+
+
+
+// Append CSRF token manually
+
+
+$.ajax({
+    url: "{{ route('update-upload-status') }}",
+    type: "POST",
+    data: JSON.stringify(data), // Convert the object to a JSON string
+    contentType: 'application/json', // Ensures the content is sent as JSON
+            dataType: 'json', // Specifies that you're expecting JSON response
+
+    processData: false,
+    success: function(response) {
+
+console.log(response.message)
+
+
+        Swal.fire({
+        text: response.message,
+        icon: "success"
+        });
+
+        setTimeout(() => {
+            window.location.reload();
+        }, 2000);
+
+
+        // location.reload();
+    },
+    error: function() {
+
+        Swal.fire({
+        text: response.message ?? 'Update failed.',
+        icon: "error"
+        });
+    }
+});
+    });
+
+
+        $('#selectDashboardUpload').change(function () {
+            let selectedValue = $(this).val();
 
             Swal.fire({
-                title: "Processing ...",
-                didOpen: () => {
-                    Swal.showLoading();
-                }
+                    title: "Loading ...",
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
 
-                })
+                    })
 
-
-
-                // return false;
-
-
-
-            // Append CSRF token manually
+            setTimeout(() => {
+                            window.location.href = '/dashboard/' + selectedValue;
+                        }, 3000);
+        });
 
 
-            $.ajax({
-                url: "",
-                type: "POST",
-                data: JSON.stringify(data), // Convert the object to a JSON string
-                contentType: 'application/json', // Ensures the content is sent as JSON
-                        dataType: 'json', // Specifies that you're expecting JSON response
 
-                processData: false,
-                success: function(response) {
+            $("#uploadForm").submit(function(e) {
+                e.preventDefault();
 
-            console.log(response.message)
+                Swal.fire({
+                    title: "Processing ...",
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
 
-
-                    Swal.fire({
-                    text: response.message,
-                    icon: "success"
-                    });
-
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 2000);
+                    })
 
 
-                    // location.reload();
-                },
-                error: function() {
 
-                    Swal.fire({
-                    text: response.message ?? 'Update failed.',
-                    icon: "error"
-                    });
-                }
-            });
-                });
+                let formData = new FormData(this);
+
+                // Append CSRF token manually
+                // formData.append('_token', '{{ csrf_token() }}');
+
+                $.ajax({
+                    url: "{{ route('upload') }}",
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
 
 
-                    $('#selectDashboardUpload').change(function () {
-                        let selectedValue = $(this).val();
+                        closeUploadModal();
 
                         Swal.fire({
-                                title: "Loading ...",
-                                didOpen: () => {
-                                    Swal.showLoading();
-                                }
-
-                                })
-
-                        setTimeout(() => {
-                                        window.location.href = '/dashboard/' + selectedValue;
-                                    }, 3000);
-                    });
-
-
-
-                        $("#uploadForm").submit(function(e) {
-                            e.preventDefault();
-
-                            Swal.fire({
-                                title: "Processing ...",
-                                didOpen: () => {
-                                    Swal.showLoading();
-                                }
-
-                                })
-
-
-
-                            let formData = new FormData(this);
-
-                            // Append CSRF token manually
-                            // formData.append('_token', '{{ csrf_token() }}');
-
-                            $.ajax({
-                                url: "",
-                                type: "POST",
-                                data: formData,
-                                contentType: false,
-                                processData: false,
-                                success: function(response) {
-
-
-                                    closeUploadModal();
-
-                                    Swal.fire({
-                                    text: "File uploaded successfully! ",
-                                    icon: "success"
-                                    });
-
-                                    setTimeout(() => {
-                                        window.location.reload();
-                                    }, 3000);
-
-
-                                    // location.reload();
-                                },
-                                error: function() {
-
-                                    Swal.fire({
-                                    text: "Upload failed. check your file ",
-                                    icon: "error"
-                                    });
-                                }
-                            });
+                        text: "File uploaded successfully! ",
+                        icon: "success"
                         });
 
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 3000);
 
 
-                    });
-                    </script>
+                        // location.reload();
+                    },
+                    error: function() {
+
+                        Swal.fire({
+                        text: "Upload failed. check your file ",
+                        icon: "error"
+                        });
+                    }
+                });
+            });
+
+
+
+        });
+        </script>
     </body>
 </html>

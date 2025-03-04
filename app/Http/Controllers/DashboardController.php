@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Upload;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -124,4 +125,55 @@ class DashboardController extends Controller
         ]);
 
     }
+
+    public function update_upload_status(Request $request)
+    {
+
+                // Validate request
+                $request->validate([
+                    'status' => 'required|integer',
+                     'action_id' => 'required|string|max:255'
+                 ]);
+
+                 if($request->status == 0){
+
+                 }else{
+                    // Turn all status off
+                 Upload::query()->update([
+                    'status' => 0
+                 ]);
+                 }
+
+
+
+                  // Turn only on status on
+                 $result = Upload::where('uuid', $request->action_id)->update([
+                    'status' => $request->status
+                 ]);
+
+                 if($result){
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => 'Status updated successfully'
+                    ], 200);
+                 }else{
+                    return response()->json([
+                        'status' => 'failed',
+                        'message' => 'Failed to update status'
+                    ], 422);
+                 }
+
+    }
+
+    public function uploaddetails()
+    {
+        $dashboardService = new DashboardService();
+        $active_upload = $dashboardService->getUploads();
+
+        return view('dashboard', [
+            'active_upload' => $active_upload
+        ]);
+
+    }
+
 }

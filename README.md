@@ -113,7 +113,7 @@ composer run dev
 
 ##  Application screen shots and Demo vidoe
 
-Screen for monitoring int the office
+Screen for monitoring upcoming birthday cakes in the office
 ![Large Screen Monitor](image-1.png) 
 
 Login

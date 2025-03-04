@@ -65,7 +65,7 @@ npm install && npm run build
 
 #### Set up environment variables:
 
-First, install the PHP dependencies required by the Laravel application using Composer:
+In the project directory run the below ro create the .env:
 
 ```bash
 cp .env.example .env
@@ -85,19 +85,43 @@ DB_USERNAME=your_username
 DB_PASSWORD=your_password
 ```
 
-### Step 2: Run Database Migrations
+### Step 3: Run Database Migrations And Seeding
 
-Run the database migrations to set up the required tables:
-
-```bash
-php artisan migrate
-```
-
-(Optional)  You may run the following:
+Run the database migrations seeds to set up the required tables:
 
 ```bash
 php artisan migrate
+
+php artisan db:seed
+
+php artisan db:seed --class=RoleSeeder
+
+php artisan db:seed --class=UkHolidaysSeeder
 ```
+
+
+### Step 4: Run Application
+
+Run the database migrations seeds to set up the required tables:
+Application may be rumning on http://127.0.0.1:8000 
+so check you terminal for link
+
+```bash
+composer run dev
+
+```
+
+##  Application screen shots and Demo vidoe
+
+![Large Screen Monitor](image-1.png) 
+
+![Login](image-2.png)
+
+![Sign Up](image-5.png)
+
+![Dashboard](image-6.png)
+
+![All Uploads](image-7.png)
 
 
 

@@ -61,7 +61,7 @@ class BirthDayCakeController extends Controller
                 "developers" => ["Doreen", "Mabel"]
             ],
         ];
-        // return $birthdays;
+
         return view('welcome', [
             'birthdays' => $birthdays
         ]);

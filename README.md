@@ -128,5 +128,5 @@ Dashboard
 Test file Uploads
 ![All Uploads](image-7.png)
 
-
-
+Upload Screen 
+![Upload Screen](image-9.png)

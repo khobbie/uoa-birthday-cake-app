@@ -15,13 +15,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('dashboard/{upload?}', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('uploads', [DashboardController::class, 'uploads'])->name('uploads');
     Route::post('update-upload-status', [DashboardController::class, 'update_upload_status'])->name('update-upload-status');
-
+    Route::post('delete-upload', [DashboardController::class, 'delete_upload'])->name('delete-upload');
 
     Route::redirect('settings', 'settings/profile');
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
+
 
 
 Route::post('upload', [BirthDayCakeController::class, 'upload'])->name('upload');

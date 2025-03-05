@@ -155,6 +155,101 @@ function openUploadModal() {
 
 $(document).ready(function () {
 
+
+    $(".deleteUploadbtn").click(function(e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
+                    });
+                }
+                });
+
+            return false;
+
+            let data = {
+                status: 0,
+                action_id: null,
+                _token:   '{{ csrf_token() }}'
+            };
+
+        // If the current toggle is checked, uncheck all other toggles
+        if ($(this).prop("checked")) {
+            $(".toggleSwitch").not(this).prop("checked", false);
+
+            data.status = 1;
+            data.action_id = $(this).attr("id");
+                        // Alert the ID of the currently checked toggle
+
+        }else{
+            $(".toggleSwitch").not(this).prop("checked", true);
+            data.status = 0;
+            data.action_id = $(this).attr("id");
+
+        }
+
+
+
+Swal.fire({
+    title: "Processing ...",
+    didOpen: () => {
+        Swal.showLoading();
+    }
+
+    })
+
+
+// Append CSRF token manually
+
+
+$.ajax({
+    url: "{{ route('update-upload-status') }}",
+    type: "POST",
+    data: JSON.stringify(data), // Convert the object to a JSON string
+    contentType: 'application/json', // Ensures the content is sent as JSON
+            dataType: 'json', // Specifies that you're expecting JSON response
+
+    processData: false,
+    success: function(response) {
+
+console.log(response.message)
+
+
+        Swal.fire({
+        text: response.message,
+        icon: "success"
+        });
+
+        setTimeout(() => {
+            window.location.reload();
+        }, 2000);
+
+
+        // location.reload();
+    },
+    error: function() {
+
+        Swal.fire({
+        text: response.message ?? 'Update failed.',
+        icon: "error"
+        });
+    }
+});
+    });
+
+
         // When a toggle is clicked
         $(".toggleUploadSwitch").change(function(e) {
             e.preventDefault();

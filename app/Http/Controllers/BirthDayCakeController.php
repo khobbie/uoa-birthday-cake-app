@@ -41,7 +41,8 @@ class BirthDayCakeController extends Controller
 
         // return $birthdays;
         return view('welcome', [
-            'birthdays' => $birthdays
+            'birthdays' => $birthdays,
+            'upload' => $upload
         ]);
     }
 

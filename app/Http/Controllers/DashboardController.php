@@ -142,6 +142,7 @@ class DashboardController extends Controller
     public function delete_upload(Request $request)
     {
 
+
                 // Validate request
                 $request->validate([
                      'action_id' => 'required|string|max:255'
@@ -170,8 +171,8 @@ class DashboardController extends Controller
                  }else{
                     return response()->json([
                         'status' => 'failed',
-                        'message' => 'Status updated successfully'
-                    ], 500);
+                        'message' => 'Failed to delete record'
+                    ], 422);
                  }
 
     }

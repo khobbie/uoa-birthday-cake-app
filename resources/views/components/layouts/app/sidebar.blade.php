@@ -159,6 +159,13 @@ $(document).ready(function () {
     $(".deleteUploadbtn").click(function(e) {
             e.preventDefault();
 
+            let data = {
+                action_id: null,
+                _token:   '{{ csrf_token() }}'
+            };
+
+            data.action_id = $(this).data('id');
+
             Swal.fire({
                 title: "Are you sure?",
                 text: "You won't be able to revert this!",
@@ -169,53 +176,18 @@ $(document).ready(function () {
                 confirmButtonText: "Yes, delete it!"
                 }).then((result) => {
                 if (result.isConfirmed) {
+
                     Swal.fire({
-                    title: "Deleted!",
-                    text: "Your file has been deleted.",
-                    icon: "success"
-                    });
-                }
-                });
+                    title: "Processing ...",
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
 
-            return false;
-
-            let data = {
-                status: 0,
-                action_id: null,
-                _token:   '{{ csrf_token() }}'
-            };
-
-        // If the current toggle is checked, uncheck all other toggles
-        if ($(this).prop("checked")) {
-            $(".toggleSwitch").not(this).prop("checked", false);
-
-            data.status = 1;
-            data.action_id = $(this).attr("id");
-                        // Alert the ID of the currently checked toggle
-
-        }else{
-            $(".toggleSwitch").not(this).prop("checked", true);
-            data.status = 0;
-            data.action_id = $(this).attr("id");
-
-        }
-
-
-
-Swal.fire({
-    title: "Processing ...",
-    didOpen: () => {
-        Swal.showLoading();
-    }
-
-    })
-
-
-// Append CSRF token manually
+                    })
 
 
 $.ajax({
-    url: "{{ route('update-upload-status') }}",
+    url: "{{ route('delete-upload') }}",
     type: "POST",
     data: JSON.stringify(data), // Convert the object to a JSON string
     contentType: 'application/json', // Ensures the content is sent as JSON
@@ -239,14 +211,25 @@ console.log(response.message)
 
         // location.reload();
     },
-    error: function() {
+    error: function(e) {
+
+        console.log(e)
 
         Swal.fire({
-        text: response.message ?? 'Update failed.',
+        text: e.responseJSON.message ??  'Failed to delete.',
         icon: "error"
         });
     }
 });
+
+
+                }
+                });
+
+            return false;
+
+
+
     });
 
 

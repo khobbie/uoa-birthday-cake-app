@@ -15,7 +15,7 @@
             <br>
 
             <a href="{{ route('home')}}">
-                <button class="bg-green-500 text-white px-4 py-2 "  >  Try again  </button>
+                <button class="bg-green-500 text-white px-4 py-2 "  >  Check again  </button>
             </a>
 
          </center>

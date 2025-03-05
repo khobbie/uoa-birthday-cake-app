@@ -28,7 +28,7 @@
 
 
             <h4 class="text-2xl font-semibold tracking-tight text-pretty text-gray-400 sm:text-3xl">
-                Developers Cakes
+              Birthday Cakes - {{ $birthday_decription ?? 'Birthday Cakes '   }}
             </h4>
 
 

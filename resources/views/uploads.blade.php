@@ -140,7 +140,7 @@
                                 </td>
 
                                 <td class="border p-2">
-                                    <button class="bg-red-500 text-white px-4 py-2 deleteUploadbtn"  >  Delete  </button>
+                                    <button class="bg-red-500 text-white px-4 py-2 deleteUploadbtn"  data-id="{{$upload->uuid}}">  Delete  </button>
                                 </td>
 
 

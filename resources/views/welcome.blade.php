@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['birthday_decription' => $upload['description']])
 @section('content')
 
     <div class="flex-1 p-6">

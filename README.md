@@ -117,16 +117,19 @@ Screen for monitoring upcoming birthday cakes in the office
 ![Large Screen Monitor](image-1.png) 
 
 Login
-![Login](image-2.png)
+![Login](screenshots/image-2.png)
 
 Signup
-![Sign Up](image-5.png)
+![Sign Up](screenshots/image-5.png)
 
 Dashboard
-![Dashboard](image-6.png)
+![Dashboard](screenshots/image-6.png)
 
 Test file Uploads
-![All Uploads](image-7.png)
+![All Uploads](screenshots/image-7.png)
 
 Upload Screen 
-![Upload Screen](image-9.png)
+![Upload Screen](screenshots/image-9.png)
+
+Demo Video 
+![Upload Screen](screenshots/image-9.png)

@@ -111,7 +111,10 @@ composer run dev
 
 ```
 
-##  Application screen shots and Demo vidoe
+##  Application screenshots and Demo vidoe
+Video
+
+https://github.com/user-attachments/assets/b450411d-41bf-470a-aff0-d0258792f321
 
 Screen for monitoring upcoming birthday cakes in the office
 ![Large Screen Monitor](screenshots/image-1.png) 

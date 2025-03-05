@@ -114,7 +114,7 @@ composer run dev
 ##  Application screen shots and Demo vidoe
 
 Screen for monitoring upcoming birthday cakes in the office
-![Large Screen Monitor](image-1.png) 
+![Large Screen Monitor](screenshots/image-1.png) 
 
 Login
 ![Login](screenshots/image-2.png)

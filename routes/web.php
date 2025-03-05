@@ -11,6 +11,7 @@ Route::get('/', [BirthDayCakeController::class, 'home'])->name('home');
 
 Route::middleware(['auth'])->group(function () {
 
+    Route::get('notfound/', [DashboardController::class, 'notfound'])->name('notfound');
     Route::get('dashboard/{upload?}', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('uploads', [DashboardController::class, 'uploads'])->name('uploads');
     Route::post('update-upload-status', [DashboardController::class, 'update_upload_status'])->name('update-upload-status');

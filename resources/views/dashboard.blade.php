@@ -1,5 +1,7 @@
 <x-layouts.app>
 
+    @if (!empty( $active_upload['uploads']))
+
     <h1 class="mt-0 mb-4 text-3xl font-extrabold tracking-tight text-slate-900">
 
 
@@ -9,31 +11,29 @@
     <select id="selectDashboardUpload" class="w-full px-3 py-2 border rounded-lg shadow-md focus:ring focus:ring-blue-300">
         @foreach( $active_upload['uploads'] as $upload)
 
-            <option value="1234535rt " >File uploa name comes here</option>
-
+            <option value="{{  $upload['uuid'] }}" @selected( $upload['uuid'] == $active_upload['active_upload']->uuid )>{{ $upload['description'] }}</option>
         @endforeach
     </select>
 </div>
 
 
     </h1>
+    @endif
+
 
 
     <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
         <div class="grid auto-rows-min gap-4 md:grid-cols-4">
 
-
-
             <div>
                 <div class="flex items-center p-6 bg-white shadow-md rounded-lg border">
-
 
 
                     <div>
 
 
                     <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox"  class="sr-only peer toggleUploadSwitch" >
+                        <input type="checkbox" id="{{  $active_upload['active_upload']->uuid }}" class="sr-only peer toggleUploadSwitch"  @checked($active_upload['active_upload']->status == 1)>
                         <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-green-300
                             rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-5
                             peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5
@@ -47,7 +47,7 @@
                         </h1>
 
                         <p class="text-gray-500  text-5xl">
-                           Active
+                            {{ $active_upload['active_upload']->status == 1 ? 'Active' : 'Offline'  }}
                         </p>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                         </h1>
 
                         <p class="text-gray-500  text-3xl">
-                            0
+                            {{$active_upload['total_small_cake'] ?? 0 }}
                         </p>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                         </h1>
 
                         <p class="text-gray-500  text-3xl">
-                           0
+                            {{$active_upload['total_large_cake'] ?? 0 }}
                         </p>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                         </h1>
 
                         <p class="text-gray-500  text-3xl">
-                           0
+                            {{$active_upload['total_developers'] ?? 0 }}
                         </p>
                     </div>
                 </div>
@@ -134,7 +134,45 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($active_upload['developer_birthday_cake_details'] as $detail)
+                            @php
+                                $detail = (object) $detail;
+                            @endphp
+                            <tr>
+                                <td class="border p-2">
+                                    <h3>{{ $detail->cake_day }}</h3>
+                                </td>
 
+                                <td class="border p-2 text-center">
+                                   @if (trim($detail->type) == 'small')
+
+                                   <div class="flex justify-center">
+                                    <img class="w-12 h-12  rounded-full mr-5" src="{{ asset('images/small-cake.jpg') }} " width="12"
+                                    alt="Small Cake">
+                                </div>
+
+                                   @else
+                                        -
+                                   @endif
+                                </td>
+
+                                <td class="border p-2 text-center">
+                                    @if (trim($detail->type) == 'large')
+
+                                    <div class="flex justify-center">
+                                        <img class="w-12 h-12  rounded-full " src="{{ asset('images/large-cake.jpg') }} " width="12"
+                                        alt="Large Cake">
+                                    </div>
+
+                                    @else
+                                         -
+                                    @endif
+                                 </td>
+
+                                <td class="border p-2">{{ implode(', ', $detail->developers) }} </td>
+
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
 

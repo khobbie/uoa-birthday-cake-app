@@ -248,7 +248,7 @@ console.log(response.message)
 
             setTimeout(() => {
                             window.location.href = '/dashboard/' + selectedValue;
-                        }, 3000);
+                        }, 1500);
         });
 
 
@@ -289,7 +289,7 @@ console.log(response.message)
 
                         setTimeout(() => {
                             window.location.reload();
-                        }, 3000);
+                        }, 1500);
 
 
                         // location.reload();

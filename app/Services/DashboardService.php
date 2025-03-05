@@ -13,27 +13,12 @@ class DashboardService
 
     public function getActiveUpload($upload_id)
     {
-        $cakeDayService = new CakeDayService();
-
         $uploads =  Upload::orderByDesc('created_at')->get();
 
-        if (!is_null($upload_id)) {
-            $active_upload = $uploads->where('uuid', $upload_id)->first();
-            $developer_birthday_cake_details = $cakeDayService->calculateCakeDays($upload_id ?? null);
-        } else {
-            $active_upload = $uploads->where('status', 1)->first();
-            // exit(json_encode($active_upload));
-            if (!$active_upload) {
-                $active_upload = Upload::orderByDesc('created_at')->first();
-                // $active_upload[] = $active_upload;
-            }
-            // exit(json_encode($active_upload));
-            // return $active_upload;
-            $developer_birthday_cake_details = $cakeDayService->calculateCakeDays($active_upload->uuid ?? null);
-        }
+        $active_upload = $uploads->where('uuid', $upload_id)->first();
 
-        // $active_upload = Upload::where('status', 1)->first();
-        // $developer_birthday_cake_details = $cakeDayService->calculateCakeDays($active_upload->uuid ?? null);
+        $cakeDayService = new CakeDayService();
+        $developer_birthday_cake_details = $cakeDayService->calculateCakeDays($upload_id);
 
         $total_large_cake = 0;
         $total_small_cake = 0;

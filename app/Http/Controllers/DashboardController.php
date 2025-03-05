@@ -139,6 +139,43 @@ class DashboardController extends Controller
 
     }
 
+    public function delete_upload(Request $request)
+    {
+
+                // Validate request
+                $request->validate([
+                     'action_id' => 'required|string|max:255'
+                 ]);
+
+                  // Turn only on status on
+                 $upload = Upload::where('uuid', $request->action_id)->first();
+
+
+                 if(!$upload){
+
+                    return response()->json([
+                        'status' => 'failed',
+                        'message' => 'Record not found'
+                    ], 422);
+
+                 }
+
+                $result = Upload::where('uuid', $upload->uuid)->delete();
+
+                 if($result){
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => 'Record deleted successfully'
+                    ], 200);
+                 }else{
+                    return response()->json([
+                        'status' => 'failed',
+                        'message' => 'Status updated successfully'
+                    ], 500);
+                 }
+
+    }
+
     public function uploaddetails()
     {
         $dashboardService = new DashboardService();

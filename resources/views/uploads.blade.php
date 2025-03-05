@@ -86,6 +86,7 @@
                             <th class="border p-2">Total</th>
                             <th class="border p-2">Uploaded By</th>
                             <th class="border p-2">Date</th>
+                            <th class="border p-2">Action</th>
 
                         </tr>
                     </thead>
